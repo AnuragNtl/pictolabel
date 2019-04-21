@@ -63,7 +63,16 @@ private File image;
 			int y1=(int)Math.round(inputHeight*topLeft[1]/gridHeight);
 			int x2=(int)Math.round(inputWidth*rightBottom[0]/gridWidth);
 			int y2=(int)Math.round(inputHeight*rightBottom[1]/gridHeight);
-			croppableAreas.put(modelClasses[detectedObject.getPredictedClass()],new Rectangle(x1,y1,x2-x1,y2-y1));
+			int width=x2-x1,height=y2-y1;
+			if(x1<0)
+				x1=0;
+			if(y1<0)
+				y1=0;
+			if(width>=modelProperties.getGridWidth())
+				width=modelProperties.getGridWidth()-1;
+			if(height>=modelProperties.getGridHeight())
+				height=modelProperties.getGridHeight()-1;
+			croppableAreas.put(modelClasses[detectedObject.getPredictedClass()],new Rectangle(x1,y1,width,height));
 		}
 		return croppableAreas;
 	}
